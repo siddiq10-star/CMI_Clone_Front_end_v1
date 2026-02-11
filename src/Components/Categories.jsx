@@ -6,13 +6,14 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
 function Categories() {
+  const API_BASE_URL = import.meta.env.REACT_APP_API_URL || "http://localhost:5000";
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/categories");
+        const res = await axios.get(`${API_BASE_URL}/api/categories`);
         setCategories(res.data);
       } catch (err) {
         console.error("❌ Failed to fetch categories:", err);

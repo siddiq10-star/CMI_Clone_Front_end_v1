@@ -14,6 +14,7 @@ import Works from "../Components/Works";
 import DynamicBrands from "../Components/DynamicBrands";
 
 function Sell() {
+  const API_BASE_URL = import.meta.env.REACT_APP_API_URL || "http://localhost:5000";
   const { categoryId } = useParams();
   const [brands, setBrands] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -25,7 +26,7 @@ function Sell() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/categories");
+        const res = await axios.get(`${API_BASE_URL}/api/categories`);
         setCategories(res.data);
       } catch (err) {
         console.error("❌ Failed to fetch categories:", err);
@@ -36,13 +37,12 @@ function Sell() {
       setLoading(true);
       try {
         const url = categoryId
-          ? `http://localhost:5000/api/brands/${categoryId}`
-          : "http://localhost:5000/api/brands";
+          ? `${API_BASE_URL}/api/brands/${categoryId}`
+          : `${API_BASE_URL}/api/brands`;
 
         const res = await axios.get(url);
         console.log("📦 API response:", res.data);
 
-        // Handle both shapes (array or { name, brands })
         if (Array.isArray(res.data)) {
           setBrands(res.data);
         } else if (Array.isArray(res.data.brands)) {
@@ -64,7 +64,7 @@ function Sell() {
 
   // ✅ Filter brands by search term
   const filteredBrands = brands.filter((brand) =>
-    brand.name.toLowerCase().includes(searchTerm.toLowerCase())
+    brand.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   // ✅ Show category name if present
@@ -117,7 +117,7 @@ function Sell() {
                   {filteredBrands.slice(0, 4).map(
                     (
                       item,
-                      index // ✅ Limit to 4
+                      index, // ✅ Limit to 4
                     ) => (
                       <Col xs={6} sm={4} md={3} lg={2} key={item._id}>
                         <motion.div
@@ -141,7 +141,7 @@ function Sell() {
                           </Link>
                         </motion.div>
                       </Col>
-                    )
+                    ),
                   )}
                 </div>
               )}

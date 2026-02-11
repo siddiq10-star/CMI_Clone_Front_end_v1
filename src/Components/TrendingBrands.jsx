@@ -6,6 +6,8 @@ import { motion } from "framer-motion";
 import { BsArrowRightCircle, BsArrowLeftCircle } from "react-icons/bs";
 
 function TrendingBrands() {
+  const API_BASE_URL = import.meta.env.REACT_APP_API_URL || "http://localhost:5000";
+
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
   const [startIndex, setStartIndex] = useState(0);
@@ -14,8 +16,8 @@ function TrendingBrands() {
   useEffect(() => {
     const fetchBrands = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/brands");
-        setBrands(res.data); // ✅ Removed mobile filter, include all brands
+        const res = await axios.get(`${API_BASE_URL}/api/brands`);
+        setBrands(res.data); // ✅ Include all brands
       } catch (err) {
         console.error("❌ Failed to fetch brands:", err);
       } finally {
@@ -23,7 +25,7 @@ function TrendingBrands() {
       }
     };
     fetchBrands();
-  }, []);
+  }, [API_BASE_URL]);
 
   const visibleCount = Math.min(maxVisible, brands.length);
 
@@ -82,9 +84,7 @@ function TrendingBrands() {
               <div
                 className="d-flex transition-transform"
                 style={{
-                  transform: `translateX(-${
-                    startIndex * (100 / visibleCount)
-                  }%)`,
+                  transform: `translateX(-${startIndex * (100 / visibleCount)}%)`,
                   transition: "transform 0.3s ease-in-out",
                   width: `${(brands.length / visibleCount) * 100}%`,
                 }}

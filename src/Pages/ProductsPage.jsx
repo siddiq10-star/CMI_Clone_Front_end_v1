@@ -11,6 +11,8 @@ import TrendingBrands from "../Components/TrendingBrands";
 
 function ProductsPage() {
   const { brandId } = useParams();
+  const API_BASE_URL = import.meta.env.REACT_APP_API_URL || "http://localhost:5000";
+
   const [products, setProducts] = useState([]);
   const [brandName, setBrandName] = useState("");
   const [loading, setLoading] = useState(true);
@@ -21,7 +23,7 @@ function ProductsPage() {
       setLoading(true);
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/products/brand/${brandId}`
+          `${API_BASE_URL}/api/products/brand/${brandId}`,
         );
 
         if (Array.isArray(res.data.products)) {
@@ -40,7 +42,7 @@ function ProductsPage() {
     };
 
     if (brandId) fetchProducts();
-  }, [brandId]);
+  }, [brandId, API_BASE_URL]);
 
   return (
     <>
@@ -105,6 +107,7 @@ function ProductsPage() {
           )}
         </Container>
       </section>
+
       {/* Full Width Sections */}
       <section className="section-padding">
         <Features />
