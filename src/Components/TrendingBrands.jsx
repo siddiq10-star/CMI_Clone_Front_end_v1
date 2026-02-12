@@ -18,7 +18,7 @@ function TrendingBrands() {
     try {
       const res = await axios.get(`${API_BASE_URL}/api/brands`);
       console.log("Fetched brands:", res.data); // Check structure
-      setBrands(res.data.brands || []);
+      setBrands(res.data || []);
     } catch (err) {
       console.error("❌ Failed to fetch brands:", err);
     } finally {
