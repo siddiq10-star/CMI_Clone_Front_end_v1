@@ -6,17 +6,31 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
 function Categories() {
-  const API_BASE_URL = import.meta.env.REACT_APP_API_URL || "http://localhost:5000";
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchCategories = async () => {
+      console.log("Fetching categories from:", API_BASE_URL);
       try {
         const res = await axios.get(`${API_BASE_URL}/api/categories`);
-        setCategories(res.data);
+        // console.log("✅ Categories fetched:", res.data);
+        // Adjust based on your API structure
+        setCategories(res.data || []);
       } catch (err) {
-        console.error("❌ Failed to fetch categories:", err);
+        if (err.response) {
+          // Server responded with a status outside 2xx
+          console.error("❌ Server responded with error:");
+          console.error("Status:", err.response.status);
+          console.error("Data:", err.response.data);
+        } else if (err.request) {
+          // Request was made but no response
+          console.error("❌ No response received from server:", err.request);
+        } else {
+          // Something else happened
+          console.error("❌ Axios error:", err.message);
+        }
       } finally {
         setLoading(false);
       }

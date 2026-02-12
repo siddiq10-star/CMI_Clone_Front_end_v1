@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { BsArrowRightCircle, BsArrowLeftCircle } from "react-icons/bs";
 
 function TrendingBrands() {
-  const API_BASE_URL = import.meta.env.REACT_APP_API_URL || "http://localhost:5000";
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
 
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -14,18 +14,20 @@ function TrendingBrands() {
   const maxVisible = 7;
 
   useEffect(() => {
-    const fetchBrands = async () => {
-      try {
-        const res = await axios.get(`${API_BASE_URL}/api/brands`);
-        setBrands(res.data); // ✅ Include all brands
-      } catch (err) {
-        console.error("❌ Failed to fetch brands:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchBrands();
-  }, [API_BASE_URL]);
+  const fetchBrands = async () => {
+    try {
+      const res = await axios.get(`${API_BASE_URL}/api/brands`);
+      console.log("Fetched brands:", res.data); // Check structure
+      setBrands(res.data.brands || []);
+    } catch (err) {
+      console.error("❌ Failed to fetch brands:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+  fetchBrands();
+}, [API_BASE_URL]);
+
 
   const visibleCount = Math.min(maxVisible, brands.length);
 

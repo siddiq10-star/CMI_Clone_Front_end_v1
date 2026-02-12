@@ -7,11 +7,11 @@ function Buy() {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
 
-  const baseapi = "http://localhost:5000/api/products";
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     axios
-      .get(baseapi)
+      .get(API_BASE_URL)
       .then((res) => {
         console.log("API Response:", res.data);
         const data = Array.isArray(res.data) ? res.data : res.data?.data || [];
