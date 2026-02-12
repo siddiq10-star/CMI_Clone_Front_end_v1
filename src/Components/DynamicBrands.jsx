@@ -9,13 +9,14 @@ function DynamicBrands() {
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
   const [categoryName, setCategoryName] = useState("");
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const fetchBrands = async () => {
       try {
-        let url = "http://localhost:5000/api/brands";
+        let url = `${API_BASE_URL}/api/brands`;
         if (categoryId) {
-          url = `http://localhost:5000/api/brands/${categoryId}`;
+          url = `${API_BASE_URL}/api/brands/${categoryId}`;
         }
 
         const res = await axios.get(url);

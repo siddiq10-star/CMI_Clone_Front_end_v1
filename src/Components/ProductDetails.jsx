@@ -8,10 +8,11 @@ function ProductDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/products/${id}`)
+      .get(`${API_BASE_URL}/api/products/${id}`)
       .then((res) => {
         // Adjust depending on backend response structure
         setProduct(res.data.product || res.data);
