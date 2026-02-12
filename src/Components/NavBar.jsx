@@ -68,7 +68,7 @@ function NavBar() {
               { name: "Home", path: "/" },
               { name: "About", path: "/about" },
               { name: "Sell", path: "/sell" },
-              { name: "Buy", path: "/buy" },
+              /*{ name: "Buy", path: "/buy" },*/
               { name: "Contact", path: "/contact" },
             ].map((link) =>
               link.name === "Sell" ? (
